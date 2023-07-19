@@ -1,0 +1,30 @@
+{
+  "sites": [
+    {
+      "name": "indeed_jobs",
+      "url_template": "https://www.indeed.com/jobs?q={keyword}&l={location}&filter=0&start={offset}",
+      "start_urls": [
+        {
+          "keyword": "python",
+          "location": "texas"
+        },
+        {
+          "keyword": "java",
+          "location": "california"
+        }
+      ],
+      "pagination_limit": 1000
+    },
+    {
+      "name": "xing_jobs",
+      "url_template": "https://www.xing.com/jobs/search?keywords={keyword}&location={location}&paging_context=global_search&radius=20&offset={offset}",
+      "start_urls": [
+        {
+          "keyword": "Python",
+          "location": "Münster"
+        }
+      ],
+      "pagination_limit": 500
+    }
+  ]
+}
