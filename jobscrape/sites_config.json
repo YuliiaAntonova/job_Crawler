@@ -6,11 +6,13 @@
       "start_urls": [
         {
           "keyword": "python",
-          "location": "texas"
+          "location": "texas",
+          "data_posted": "last 7 days"
         },
         {
           "keyword": "java",
-          "location": "california"
+          "location": "california",
+          "data_posted": "last 7 days"
         }
       ],
       "pagination_limit": 1000
@@ -21,7 +23,8 @@
       "start_urls": [
         {
           "keyword": "Python",
-          "location": "Münster"
+          "location": "Münster",
+          "data_posted": "last 7 days"
         }
       ],
       "pagination_limit": 500
