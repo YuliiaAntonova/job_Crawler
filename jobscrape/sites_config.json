@@ -15,19 +15,8 @@
           "data_posted": "last 7 days"
         }
       ],
-      "pagination_limit": 1000
-    },
-    {
-      "name": "xing_jobs",
-      "url_template": "https://www.xing.com/jobs/search?keywords={keyword}&location={location}&paging_context=global_search&radius=20&offset={offset}",
-      "start_urls": [
-        {
-          "keyword": "Python",
-          "location": "Münster",
-          "data_posted": "last 7 days"
-        }
-      ],
-      "pagination_limit": 500
+      "pagination_limit": 10,
+      "data_column_titles": ["company","jobTitle","jobDescription","url"]
     }
   ]
 }

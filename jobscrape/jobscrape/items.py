@@ -6,7 +6,29 @@
 import scrapy
 
 
-class JobscrapeItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class GlassdoorJobItem(scrapy.Item):
+    # the fields for the item are defined here like:
+    # job
+    title = scrapy.Field()
+    company = scrapy.Field()
+    location = scrapy.Field()
+    salary = scrapy.Field()
+    description = scrapy.Field()
+    source = scrapy.Field()
+    link = scrapy.Field()
+
+
+class IndeedJobItem(scrapy.Item):
+    title = scrapy.Field()
+    company = scrapy.Field()
+    location = scrapy.Field()
+    min_salary = scrapy.Field()
+    max_salary = scrapy.Field()
+    salary_type = scrapy.Field()
+    description = scrapy.Field()
+    source = scrapy.Field()
+    link = scrapy.Field()
+
+
+
+

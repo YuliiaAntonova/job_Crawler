@@ -18,7 +18,9 @@ NEWSPIDER_MODULE = 'jobscrape.spiders'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
-SCRAPEOPS_API_KEY = 'Your key'  ## Get Free API KEY here: https://scrapeops.io/app/register/main
+
+
+SCRAPEOPS_API_KEY = '14326a34-f4f3-49b5-b53e-3f46623d7cff'  ## Get Free API KEY here: https://scrapeops.io/app/register/main
 
 ## Enable ScrapeOps Proxy
 SCRAPEOPS_PROXY_ENABLED = True
@@ -29,6 +31,17 @@ SCRAPEOPS_PROXY_ENABLED = True
 DOWNLOADER_MIDDLEWARES = {
     'scrapeops_scrapy_proxy_sdk.scrapeops_scrapy_proxy_sdk.ScrapeOpsScrapyProxySdk': 725,
 }
+# SCRAPEOPS_API_KEY = 'NI77PABZ0ZUOQ69SX0QNYK76YY84799BK27SZU598NALTQGOKQ2YVXA3O9GDAPF1W3F73ZP3CMJDX1V6'  ## Get Free API KEY here: https://scrapeops.io/app/register/main
+
+## Enable ScrapeOps Proxy
+# SCRAPEOPS_PROXY_ENABLED = True
+
+# Add In The ScrapeOps Monitoring Extension
+# SCRAPFLY_API_KEY = ''
+#
+# DOWNLOADER_MIDDLEWARES = {
+#     'scrapeops_scrapy_proxy_sdk.scrapeops_scrapy_proxy_sdk.ScrapeOpsScrapyProxySdk': 725,
+# }
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -97,4 +110,4 @@ DOWNLOADER_MIDDLEWARES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
-CONCURRENT_REQUESTS = 1
+CONCURRENT_REQUESTS = 100

@@ -1,0 +1,15 @@
+{
+  "sites": [
+    {
+      "name": "glassdoor_jobs",
+      "start_urls": [
+        {
+          "url": "https://www.glassdoor.com/Job/Home/recentActivity.htm",
+          "keyword": "Software Engineer",
+          "location": "San Francisco"
+        }
+      ],
+      "pagination_limit": 100
+    }
+  ]
+}
