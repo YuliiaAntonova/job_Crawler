@@ -20,7 +20,7 @@ NEWSPIDER_MODULE = 'jobscrape.spiders'
 ROBOTSTXT_OBEY = False
 
 
-SCRAPEOPS_API_KEY = '14326a34-f4f3-49b5-b53e-3f46623d7cff'  ## Get Free API KEY here: https://scrapeops.io/app/register/main
+SCRAPEOPS_API_KEY = ''  ## Get Free API KEY here: https://scrapeops.io/app/register/main
 
 ## Enable ScrapeOps Proxy
 SCRAPEOPS_PROXY_ENABLED = True
