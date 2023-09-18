@@ -1,15 +1,9 @@
 {
-  "sites": [
-    {
-      "name": "glassdoor_jobs",
-      "start_urls": [
-        {
-          "url": "https://www.glassdoor.com/Job/Home/recentActivity.htm",
-          "keyword": "Software Engineer",
-          "location": "San Francisco"
-        }
-      ],
-      "pagination_limit": 100
-    }
-  ]
+    "glassdoor": {
+        "start_url": "https://www.glassdoor.com/Job/united-states-{keyword}-jobs-SRCH_IL.0,13_IN1_KO14,27.htm?"
+    },
+    "other_site": {
+        "start_url": "https://www.example.com/{category}/jobs"
+    },
+    "keyword": "data-engineer"
 }
