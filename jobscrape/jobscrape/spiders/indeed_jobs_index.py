@@ -115,7 +115,7 @@ class JobsSpider(scrapy.Spider):
             salary_info)
         min_salary = None
         max_salary = None
-        salary_type = None
+        rate_type = None
 
         if salary_match:
             salary_group = salary_match.group(1)
@@ -124,7 +124,7 @@ class JobsSpider(scrapy.Spider):
             else:
                 min_salary = salary_group
 
-            salary_type = salary_match.group(2)  # Capture the second group as salary_type
+            rate_type = salary_match.group(2)  # Capture the second group as salary_type
 
         script_tag = re.findall(r"_initialData=(\{.+?\});", response.text)
         if script_tag:
@@ -139,7 +139,7 @@ class JobsSpider(scrapy.Spider):
             job_item['location'] = location
             job_item['min_salary'] = min_salary
             job_item['max_salary'] = max_salary
-            job_item['salary_type'] = salary_type
+            job_item['rate_type'] = rate_type
             job_item['description'] = job_description_text
             job_item['link'] = response.url
             self.results.append(job_item)
@@ -148,6 +148,8 @@ class JobsSpider(scrapy.Spider):
     def close(self, reason):
         # After the spider finishes, create a DataFrame and write it to a CSV file
         df = pd.DataFrame(self.results)
+        # df.to_csv('job_listings.csv', index=False)
+
 
 
 

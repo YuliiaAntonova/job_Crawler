@@ -12,10 +12,8 @@ from time import sleep
 from concurrent.futures import ThreadPoolExecutor
 import threading
 
-from ..items import GlassdoorJobItem
 
-
-class GlassdoorJobSpider(scrapy.Spider):
+class GlassdoorJobSpider:
     name = 'glassdoor_jobs0'
 
     def __init__(self, *args, **kwargs):
@@ -34,10 +32,10 @@ class GlassdoorJobSpider(scrapy.Spider):
             keyword = config.get('keyword')
 
         start_url = start_url.format(keyword=keyword)
-        yield scrapy.Request(url=start_url, callback=self.parse)
+        return start_url
 
     def parse(self, response):
-        self.driver.get(response.url)
+        self.driver.get(response)
         sleep(1)
 
         dropdown_div = self.wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'div[data-test="DATEPOSTED"]')))
@@ -47,7 +45,7 @@ class GlassdoorJobSpider(scrapy.Spider):
         last_week_button.click()
         sleep(1)
 
-        num_pages = 1
+        num_pages = 2
         current_page = 1
 
         while current_page <= num_pages:
@@ -109,22 +107,15 @@ class GlassdoorJobSpider(scrapy.Spider):
         min_salary, max_salary, rate_type = self.preprocess_salary(raw_salary)
 
         # Create a GlassdoorJobItem object for the current job
-        job_item = GlassdoorJobItem()
-        job_item['source'] = 'glassdoor.com'
-        job_item['title'] = job_title
-        job_item['company'] = company_name
-        job_item['location'] = location
-        job_item['min_salary'] = min_salary
-        job_item['max_salary'] = max_salary
-        job_item['rate_type'] = rate_type
-        job_item['description'] = job_description
-        job_item['link'] = job_url
+        job_item = {'source': 'glassdoor.com', 'title': job_title, 'company': company_name, 'location': location,
+                    'min_salary': min_salary, 'max_salary': max_salary, 'rate_type': rate_type,
+                    'description': job_description, 'link': job_url}
 
         with self.result_lock:
             self.result.append(job_item)
 
         driver.quit()  # Close the WebDriver for this thread
-        print(self.result)
+
 
     def preprocess_salary(self, raw_salary):
         # Preprocess the raw salary using Pandas
@@ -143,3 +134,17 @@ class GlassdoorJobSpider(scrapy.Spider):
         max_salary = max_salary.replace(' Per Hour', '').replace('k', '000').strip()
 
         return min_salary, max_salary, rate_type
+
+    def save_to_csv(self):
+        df = pd.DataFrame(self.result)
+        df = df.drop_duplicates(subset='link')
+        df.to_csv('glassdoor_jobs.csv', index=False)
+
+
+if __name__ == '__main__':
+    spider = GlassdoorJobSpider()
+    start_url = spider.start_requests()
+    spider.parse(start_url)
+    spider.save_to_csv()
+
+

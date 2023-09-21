@@ -1,13 +1,44 @@
-# Define your item pipelines here
-#
-# Don't forget to add your pipeline to the ITEM_PIPELINES setting
-# See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+import csv
+import logging
+
+from .items import IndeedJobItem
 
 
-# useful for handling different item types with a single interface
-from itemadapter import ItemAdapter
+class SaveToCsvPipeline:
+    def __init__(self):
+        self.csv_file = open('indeed_jobs.csv', 'w', newline='', encoding='utf-8')
+        self.csv_writer = csv.DictWriter(self.csv_file, fieldnames=[
+            'company',
+            'description',
+            'link',
+            'location',
+            'max_salary',
+            'min_salary',
+            'rate_type',
+            'source',
+            'title',
+        ])
+        self.csv_writer.writeheader()
 
-
-class JobscrapePipeline:
     def process_item(self, item, spider):
-        return item
+
+        if isinstance(item, IndeedJobItem):  # Ensure that the item is of the correct type
+            row = {
+                'company': item.get('company'),
+                'description': item.get('description'),
+                'link': item.get('link'),
+                'location': item.get('location'),
+                'max_salary': item.get('max_salary'),
+                'min_salary': item.get('min_salary'),
+                'rate_type': item.get('rate_type'),
+                'source': item.get('source'),
+                'title': item.get('title'),
+            }
+
+            self.csv_writer.writerow(row)
+            logging.info(f"Saved item to CSV: {row}")
+        else:
+            logging.warning(f"Item is not an instance of GlassdoorJobItem: {item}")
+
+    def close_spider(self, spider):
+        self.csv_file.close()

@@ -6,17 +6,18 @@
 import scrapy
 
 
+import scrapy
+
 class GlassdoorJobItem(scrapy.Item):
-    source = scrapy.Field()
-    title = scrapy.Field()
     company = scrapy.Field()
-    location = scrapy.Field()
-    salary = scrapy.Field()
     description = scrapy.Field()
     link = scrapy.Field()
-    min_salary = scrapy.Field()
+    location = scrapy.Field()
     max_salary = scrapy.Field()
+    min_salary = scrapy.Field()
     rate_type = scrapy.Field()
+    source = scrapy.Field()
+    title = scrapy.Field()
 
 
 class IndeedJobItem(scrapy.Item):
@@ -25,7 +26,7 @@ class IndeedJobItem(scrapy.Item):
     location = scrapy.Field()
     min_salary = scrapy.Field()
     max_salary = scrapy.Field()
-    salary_type = scrapy.Field()
+    rate_type = scrapy.Field()
     description = scrapy.Field()
     source = scrapy.Field()
     link = scrapy.Field()
