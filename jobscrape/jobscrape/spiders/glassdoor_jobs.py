@@ -1,4 +1,6 @@
 import time
+
+import pandas as pd
 import scrapy
 from selenium import webdriver
 from selenium.common import NoSuchElementException
@@ -6,6 +8,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from ..items import GlassdoorJobItem
 
 
 class GlassdoorJobListSpider(scrapy.Spider):
@@ -16,11 +19,10 @@ class GlassdoorJobListSpider(scrapy.Spider):
     def __init__(self, query=None, *args, **kwargs):
         super(GlassdoorJobListSpider, self).__init__(*args, **kwargs)
         self.query = "united-states-data-engineer-jobs-SRCH_IL.0,13_IN1_KO14,27.htm?fromAge=7"
-        # self.max_items = 50
         self.jobs_scraped = 0
         self.data = []
         self.items = []
-        self.itemTargetCount = 23
+        self.itemTargetCount = 20
 
         # Initialize the WebDriver
         self.driver = webdriver.Chrome()
@@ -131,35 +133,63 @@ class GlassdoorJobListSpider(scrapy.Spider):
 
             try:
                 time.sleep(0.1)
-
+                job_title_element = self.driver.find_element(By.CLASS_NAME, 'JobDetails_jobTitle__Rw_gn')
+                # job_title = job_title_element.text
+                job_title = job_title_element.text if job_title_element else ""
                 company_element = self.driver.find_element(By.CSS_SELECTOR,
                                                            'div.JobDetails_jobDetailsHeader__qKuvs div.css-8wag7x')
 
                 company = company_element.text if company_element else ""
-                job_title_element = self.driver.find_element(By.CLASS_NAME, 'JobDetails_jobTitle__Rw_gn')
-                job_title = job_title_element.text
 
                 job_description_element = self.driver.find_element(By.CLASS_NAME,
                                                                    "JobDetails_jobDescription__6VeBn")
                 job_description = job_description_element.text if job_description_element else ""
 
                 location_element = self.driver.find_element(By.CLASS_NAME, 'JobDetails_location__MbnUM')
-                location = location_element.text
+                location = location_element.text if location_element else ""
 
+                salary_range_elements = self.driver.find_elements(By.CSS_SELECTOR,
+                                                                  '.SalaryEstimate_rangeEstimate__mP36_')
+                salary_range = salary_range_elements if salary_range_elements else ""
+                # Initialize variables to store minimum and maximum salaries
+                min_salary = None
+                max_salary = None
+
+                # Iterate through the salary range elements
+                for element in salary_range:
+                    text = element.text
+                    if "The minimum salary range is" in text:
+                        min_salary = text.replace("The minimum salary range is", "").strip()
+                    elif "The maximum salary range is" in text:
+                        max_salary = text.replace("The maximum salary range is", "").strip()
 
             except NoSuchElementException:
                 # different html processing
-                company = ""
                 job_title = ""
+                company = ""
                 job_description = ""
                 location = ""
+                min_salary = ""
+                max_salary = ""
 
                 time.sleep(1)
-            self.data.append({"company": company, "job_title": job_title, "job_description": job_description,
-                              "location": location})
+
+            job_item = GlassdoorJobItem()
+
+            job_item['title'] = job_title
+            job_item['company'] = company
+            job_item['description'] = job_description
+            job_item['source'] = 'glassdoor.com'
+            job_item['location'] = location
+            job_item['min_salary'] = min_salary
+            job_item['max_salary'] = max_salary
+
+            self.data.append(job_item)
+            yield job_item
 
         self.driver.quit()
 
     def close(self, reason):
         print(self.data)
         print(len(self.data))
+        df = pd.DataFrame(self.data)

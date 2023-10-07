@@ -18,6 +18,8 @@ NEWSPIDER_MODULE = 'jobscrape.spiders'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
+# LOG_LEVEL = 'DEBUG'
+
 
 
 SCRAPEOPS_API_KEY = ''  ## Get Free API KEY here: https://scrapeops.io/app/register/main
@@ -31,29 +33,9 @@ SCRAPEOPS_PROXY_ENABLED = True
 DOWNLOADER_MIDDLEWARES = {
     'scrapeops_scrapy_proxy_sdk.scrapeops_scrapy_proxy_sdk.ScrapeOpsScrapyProxySdk': 725,
 }
-# SCRAPEOPS_API_KEY = 'NI77PABZ0ZUOQ69SX0QNYK76YY84799BK27SZU598NALTQGOKQ2YVXA3O9GDAPF1W3F73ZP3CMJDX1V6'  ## Get Free API KEY here: https://scrapeops.io/app/register/main
-
-## Enable ScrapeOps Proxy
-# SCRAPEOPS_PROXY_ENABLED = True
-
-# Add In The ScrapeOps Monitoring Extension
-# SCRAPFLY_API_KEY = ''
-#
-# DOWNLOADER_MIDDLEWARES = {
-#     'scrapeops_scrapy_proxy_sdk.scrapeops_scrapy_proxy_sdk.ScrapeOpsScrapyProxySdk': 725,
-# }
-
-# Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
-
-# Configure a delay for requests for the same website (default: 0)
-# See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
-# See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
-# The download delay setting will honor only one of:
-#CONCURRENT_REQUESTS_PER_DOMAIN = 16
-#CONCURRENT_REQUESTS_PER_IP = 16
-
+ITEM_PIPELINES = {
+    'jobscrape.pipelines.CombineResultsPipeline': 300,
+}
 # Disable cookies (enabled by default)
 #COOKIES_ENABLED = False
 
@@ -77,7 +59,7 @@ DOWNLOADER_MIDDLEWARES = {
 #DOWNLOADER_MIDDLEWARES = {
 #    'quotes_js_scraper.middlewares.QuotesJsScraperDownloaderMiddleware': 543,
 #}
-
+CONCURRENT_REQUESTS = 1
 # Enable or disable extensions
 # See https://docs.scrapy.org/en/latest/topics/extensions.html
 #EXTENSIONS = {

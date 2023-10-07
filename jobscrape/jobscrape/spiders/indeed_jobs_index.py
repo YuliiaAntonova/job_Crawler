@@ -62,7 +62,6 @@ class JobsSpider(scrapy.Spider):
                     num_results = pagination_limit
 
                 for offset in range(10, num_results + 10, 10):
-
                     url = response.urljoin(urlencode({"start": offset}))
 
                     yield scrapy.Request(url=url, callback=self.parse_search_results,
@@ -133,15 +132,13 @@ class JobsSpider(scrapy.Spider):
             job = json_blob["jobInfoWrapperModel"]["jobInfoModel"]["jobInfoHeaderModel"]
             job_item = IndeedJobItem()
 
-            job_item['source'] = 'indeed.com'
             job_item['title'] = job.get('jobTitle')
             job_item['company'] = job.get('companyName')
+            job_item['description'] = job_description_text
+            job_item['source'] = 'indeed.com'
             job_item['location'] = location
             job_item['min_salary'] = min_salary
             job_item['max_salary'] = max_salary
-            job_item['rate_type'] = rate_type
-            job_item['description'] = job_description_text
-            job_item['link'] = response.url
             self.results.append(job_item)
             yield job_item
 
@@ -149,7 +146,3 @@ class JobsSpider(scrapy.Spider):
         # After the spider finishes, create a DataFrame and write it to a CSV file
         df = pd.DataFrame(self.results)
         # df.to_csv('job_listings.csv', index=False)
-
-
-
-

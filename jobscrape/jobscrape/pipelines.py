@@ -1,44 +1,27 @@
 import csv
-import logging
-
-from .items import IndeedJobItem
 
 
-class SaveToCsvPipeline:
+class CombineResultsPipeline:
     def __init__(self):
-        self.csv_file = open('indeed_jobs.csv', 'w', newline='', encoding='utf-8')
-        self.csv_writer = csv.DictWriter(self.csv_file, fieldnames=[
-            'company',
-            'description',
-            'link',
-            'location',
-            'max_salary',
-            'min_salary',
-            'rate_type',
-            'source',
-            'title',
-        ])
-        self.csv_writer.writeheader()
+        self.results = []
 
     def process_item(self, item, spider):
-
-        if isinstance(item, IndeedJobItem):  # Ensure that the item is of the correct type
-            row = {
-                'company': item.get('company'),
-                'description': item.get('description'),
-                'link': item.get('link'),
-                'location': item.get('location'),
-                'max_salary': item.get('max_salary'),
-                'min_salary': item.get('min_salary'),
-                'rate_type': item.get('rate_type'),
-                'source': item.get('source'),
-                'title': item.get('title'),
-            }
-
-            self.csv_writer.writerow(row)
-            logging.info(f"Saved item to CSV: {row}")
-        else:
-            logging.warning(f"Item is not an instance of GlassdoorJobItem: {item}")
+        self.results.append(dict(item))
+        return item
 
     def close_spider(self, spider):
-        self.csv_file.close()
+        # Combine the results from both spiders into one list
+        # You can access the spider name to distinguish between the results if needed
+        if spider.name in ['indeed_job', 'glassdoor-job-list']:
+            csv_filename = 'combined_results.csv'
+            with open(csv_filename, 'a', newline='', encoding='utf-8') as csvfile:
+                fieldnames = ['title', 'company', 'description', 'source', 'location', 'min_salary', 'max_salary']
+                writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+                # Write a header row if the file is empty
+                if csvfile.tell() == 0:
+                    writer.writeheader()
+
+                # Write the results to the CSV file
+                for result in self.results:
+                    writer.writerow(result)
