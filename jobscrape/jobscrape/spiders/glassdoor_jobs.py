@@ -16,13 +16,13 @@ class GlassdoorJobListSpider(scrapy.Spider):
     allowed_domains = ['glassdoor.com']
     start_urls = ['https://www.glassdoor.com/Job']
 
-    def __init__(self, query=None, *args, **kwargs):
+    def __init__(self, query, item_target_count=20, *args, **kwargs):
         super(GlassdoorJobListSpider, self).__init__(*args, **kwargs)
-        self.query = "united-states-data-engineer-jobs-SRCH_IL.0,13_IN1_KO14,27.htm?fromAge=7"
+        self.query = query
         self.jobs_scraped = 0
         self.data = []
         self.items = []
-        self.itemTargetCount = 20
+        self.item_target_count = item_target_count
 
         # Initialize the WebDriver
         self.driver = webdriver.Chrome()
@@ -53,7 +53,8 @@ class GlassdoorJobListSpider(scrapy.Spider):
         try:
             # Wait for the "Close" button by its CSS classes to be clickable
             close_button = WebDriverWait(self.driver, 20).until(
-                EC.element_to_be_clickable((By.CSS_SELECTOR, '.e1jbctw80.ei0fd8p1.css-1n14mz9.e1q8sty40'))
+                EC.element_to_be_clickable(
+                    (By.CSS_SELECTOR, 'body > div.ModalContainer > div.Modal > div.closeButtonWrapper > button'))
             )
 
             # Scroll the button into view
@@ -79,7 +80,7 @@ class GlassdoorJobListSpider(scrapy.Spider):
 
         # itemTargetCount = 23
         # TODO
-        while len(self.items) < self.itemTargetCount:
+        while len(self.items) < int(self.item_target_count):
             # Scroll to the bottom of the page
             self.driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(1)
@@ -107,7 +108,7 @@ class GlassdoorJobListSpider(scrapy.Spider):
                 try:
                     # time.sleep(0.5)
                     button = self.driver.find_element(By.CSS_SELECTOR,
-                                                      'button.e1jbctw80.ei0fd8p1.css-1n14mz9.e1q8sty40')
+                                                      'body > div.ModalContainer > div.Modal > div.closeButtonWrapper > button')
 
                     # Click on the button
                     button.click()
@@ -192,4 +193,4 @@ class GlassdoorJobListSpider(scrapy.Spider):
     def close(self, reason):
         print(self.data)
         print(len(self.data))
-        df = pd.DataFrame(self.data)
+
