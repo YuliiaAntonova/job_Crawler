@@ -1,3 +1,4 @@
+Parsing job description from Indeed and Glassdoor with scrapy and selenium. Save data into S# bucket with python and typer CLI. Data processing in Ray clusters and save result in Redshift.
 Run spiders with arguments:
 
 .. sourcecode:: python
