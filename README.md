@@ -25,5 +25,18 @@ Run spiders with arguments:
             --query "select * from jobs" \
             --limit 10
 
+.. Typer command:: upload data from s3 bucket to redshift
+
+    python -m bin.migrations aws_to_redshift aws_to_redshift
+           --host your_host
+           --port your_port
+           --database your_database
+           --user your_user 
+           --password your_password
+           --access_key your_access_key 
+           --secret_key your_secret_key --s3_
+             location your_s3_location
+
+
 
     
