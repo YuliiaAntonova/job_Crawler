@@ -37,6 +37,10 @@ Run spiders with arguments:
            --secret_key your_secret_key --s3_
              location your_s3_location
 
+.. Salary Prediction using job descriptions
+
+The data comes from indeed and glassdoor sites and build a modl for predicting salary values depending job description metrics. This model deployed with Fastapi.
+
 
 
     
