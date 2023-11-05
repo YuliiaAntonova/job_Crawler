@@ -41,6 +41,9 @@ Run spiders with arguments:
 
 The data comes from indeed and glassdoor sites and build a modl for predicting salary values depending job description metrics. This model deployed with Fastapi.
 
+.. Typer command:: Start the web server: Run the .api/render_html.py script in your terminal:
+    
+    python render_html.py
 
 
     
