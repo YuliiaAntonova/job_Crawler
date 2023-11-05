@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Salary Data</title>
+</head>
+<body>
+    <h1>Average Salary Data by Experience Level</h1>
+    <table>
+        <tr>
+            <th>Experience Level</th>
+            <th>Avg Min Salary</th>
+            <th>Avg Max Salary</th>
+        </tr>
+        {% for row in result_df %}
+        <tr>
+            <td>{{ row['experience_level'] }}</td>
+            <td>{{ row['avg_min_salary'] }}</td>
+            <td>{{ row['avg_max_salary'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
