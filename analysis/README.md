@@ -1,6 +1,4 @@
-
-**text_analysis.ipynb**: Contains code for working with a machine learning model: User
-predict salaries based on a variety of attributes, the most important of which is the job description. 
-This is a good example to show that even unstructured data such as text can be used to make pretty solid predictions.
-
-**app**: Contains code for running the web application.
+* [classification_jobs.ipynb](https://github.com/YuliiaAntonova/job_Crawler/blob/master/analysis/docker_sql/classification_jobs.ipynb "Сайт Google"):Contains code for data cleaning and processing.
+* [ingest_data.py](https://github.com/YuliiaAntonova/job_Crawler/blob/master/analysis/docker_sql/ingest_data.py "Сайт Google"): Contains code for saving data from csv to database.
+* [text_analysis.ipynb](https://github.com/YuliiaAntonova/job_Crawler/blob/master/analysis/docker_sql/ingest_data.py "Сайт Google"):Contains code for working with a machine learning model: Userpredict salaries based on a variety of attributes, the most important of which is the job description. This is a good example to show that even unstructured data such as text can be used to make pretty solid predictions.
+* [app.py](https://github.com/YuliiaAntonova/job_Crawler/blob/master/analysis/app.py "Сайт Google"): Contains code for running the web application.
